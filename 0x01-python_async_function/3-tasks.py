@@ -2,9 +2,7 @@
 """ Module documentation """
 
 import asyncio
-import time
 
-# Importing the wait_random function from another module
 wait_random = __import__("0-basic_async_syntax").wait_random
 
 
@@ -18,4 +16,3 @@ def task_wait_random(max_delay: int) -> asyncio.Task:
         Task: An asyncio Task object representing the asynchronous operation.
     """
     return asyncio.create_task(wait_random(max_delay))
-
