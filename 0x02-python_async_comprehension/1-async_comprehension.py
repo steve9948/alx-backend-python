@@ -1,4 +1,4 @@
-#!/usr/bin/usr python3
+#!/usr/bin/env python3
 """Module doc"""
 from typing import List
 
