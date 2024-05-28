@@ -3,7 +3,7 @@
 Unit tests for the GithubOrgClient class.
 """
 
-from unittest.mock import patch, Mock, PropertyMock
+from unittest.mock import patch, PropertyMock
 from parameterized import parameterized, parameterized_class
 from client import GithubOrgClient
 import unittest
