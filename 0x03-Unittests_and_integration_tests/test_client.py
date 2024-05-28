@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Unit tests for utility functions."""
 import unittest
-from parameterized import parameterized
-from utils import access_nested_map, get_json, memoize
+from parameterized import *
+from utils import *
 from typing import Any, Tuple, Dict
-from unittest.mock import patch, Mock
+from unittest.mock import *
 
 
 class TestAccessNestedMap(unittest.TestCase):
