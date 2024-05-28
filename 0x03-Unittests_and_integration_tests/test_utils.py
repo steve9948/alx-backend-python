@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-This module contains unit tests for the utilities: access_nested_map, get_json, and memoize.
+This module contains unit tests for the utilities:
+access_nested_map, get_json, and memoize.
 """
 
 import unittest
@@ -28,8 +29,10 @@ class TestAccessNestedMap(unittest.TestCase):
 
         Args:
             nested_map (Dict[str, Any]): The nested dictionary to access.
-            path (Tuple[str, ...]): The path of keys to navigate through the nested map.
-            expected (Any): The expected value to be retrieved from the nested map.
+            path (Tuple[str, ...]): The path of keys to navigate through
+            the nested map.
+            expected (Any): The expected value to be retrieved from
+            the nested map.
         """
         self.assertEqual(access_nested_map(nested_map, path), expected)
 
@@ -42,7 +45,8 @@ class TestAccessNestedMap(unittest.TestCase):
 
         Args:
             nested_map (Dict[str, Any]): The nested dictionary to access.
-            path (Tuple[str, ...]): The path of keys to navigate through the nested map.
+            path (Tuple[str, ...]): The path of keys to navigate
+            through the nested map.
         """
         with self.assertRaises(KeyError):
             access_nested_map(nested_map, path)
@@ -113,4 +117,3 @@ class TestMemoize(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
