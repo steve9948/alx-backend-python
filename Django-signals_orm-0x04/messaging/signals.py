@@ -37,13 +37,3 @@ def clean_up_user_data(sender, instance, **kwargs):
     # Delete all message histories linked to the user's messages
     MessageHistory.objects.filter(original_message__sender=instance).delete()
     MessageHistory.objects.filter(original_message__receiver=instance).delete()
-
-# messaging/apps.py
-from django.apps import AppConfig
-
-class MessagingConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'messaging'
-
-    def ready(self):
-        import messaging.signals

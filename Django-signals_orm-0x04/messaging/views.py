@@ -22,6 +22,7 @@ def threaded_conversation(request, message_id):
     except Message.DoesNotExist:
         return HttpResponse("Message not found", status=404)
 
+@login_required
 def delete_user(request):
     if request.method == "POST":
         if request.user.is_authenticated:
@@ -35,5 +36,27 @@ def delete_user(request):
 
 @login_required
 def unread_messages_view(request):
+    unread_messages = Message.unread_messages.get_unread_messages(request.user)
+    return render(request, 'messaging/unread_messages.html', {'unread_messages': unread_messages})
+
+@login_required
+def send_message(request):
+    if request.method == "POST":
+        content = request.POST.get("content")
+        receiver_id = request.POST.get("receiver_id")
+        if content and receiver_id:
+            receiver = User.objects.get(id=receiver_id)
+            Message.objects.create(sender=request.user, receiver=receiver, content=content)
+            messages.success(request, "Message sent successfully.")
+            return redirect("/messages/")  # Replace with the appropriate URL
+    return render(request, "messaging/send_message.html")
+
+@login_required
+def message_list(request):
+    messages = Message.objects.filter(receiver=request.user).only('id', 'sender', 'content', 'timestamp')
+    return render(request, "messaging/message_list.html", {"messages": messages})
+
+@login_required
+def unread_for_user(request):
     unread_messages = Message.unread_messages.get_unread_messages(request.user)
     return render(request, 'messaging/unread_messages.html', {'unread_messages': unread_messages})
