@@ -60,3 +60,8 @@ def message_list(request):
 def unread_for_user(request):
     unread_messages = Message.unread_messages.get_unread_messages(request.user)
     return render(request, 'messaging/unread_messages.html', {'unread_messages': unread_messages})
+
+@login_required
+def unread_for_user_manager(request):
+    unread_messages = Message.unread.unread_for_user(request.user)
+    return render(request, 'messaging/unread_messages_manager.html', {'unread_messages': unread_messages})
