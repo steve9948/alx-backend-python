@@ -2,6 +2,7 @@ from django.db.models.signals import post_save, pre_save, post_delete
 from django.dispatch import receiver
 from .models import Message, Notification, MessageHistory
 from django.contrib.auth.models import User
+from django.utils.timezone import now
 
 @receiver(post_save, sender=Message)
 def create_notification(sender, instance, created, **kwargs):
@@ -19,6 +20,8 @@ def log_message_edit(sender, instance, **kwargs):
                     old_content=old_message.content
                 )
                 instance.edited = True
+                instance.edited_at = now()
+                # Assuming the user editing is stored in instance.edited_by
         except Message.DoesNotExist:
             pass
 
@@ -34,3 +37,13 @@ def clean_up_user_data(sender, instance, **kwargs):
     # Delete all message histories linked to the user's messages
     MessageHistory.objects.filter(original_message__sender=instance).delete()
     MessageHistory.objects.filter(original_message__receiver=instance).delete()
+
+# messaging/apps.py
+from django.apps import AppConfig
+
+class MessagingConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'messaging'
+
+    def ready(self):
+        import messaging.signals

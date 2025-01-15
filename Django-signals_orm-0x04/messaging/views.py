@@ -5,10 +5,8 @@ from django.http import HttpResponse
 from django.contrib import messages
 from .models import Message
 from django.db.models import Prefetch
-from django.views.decorators.cache import cache_page
 
 @login_required
-@cache_page(60)  # Cache the view for 60 seconds
 def threaded_conversation(request, message_id):
     try:
         root_message = Message.objects.prefetch_related(
