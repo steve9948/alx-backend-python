@@ -1,11 +1,13 @@
-from django.db import models
-
-# Create your models here.
 from django.contrib.auth.models import AbstractUser
-import uuid 
+from django.db import models
+import uuid
 
 class User(AbstractUser):
     user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    email = models.EmailField(unique=True, blank=False, null=False)
+    first_name = models.CharField(max_length=150, blank=False, null=False)
+    last_name = models.CharField(max_length=150, blank=False, null=False)
+    password = models.CharField(max_length=128, blank=False, null=False)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
     ROLE_CHOICES = [
         ('guest', 'Guest'),
