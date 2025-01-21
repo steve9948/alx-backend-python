@@ -10,8 +10,9 @@ router.register(r'conversations', ConversationViewSet, basename='conversation')
 nested_router = NestedDefaultRouter(router, r'conversations', lookup='conversation')
 nested_router.register(r'messages', MessageViewSet, basename='conversation-messages')
 
-# Define urlpatterns
+# Define urlpatterns by including both routers
 urlpatterns = [
     path('', include(router.urls)),  # Include main router URLs
     path('', include(nested_router.urls)),  # Include nested router URLs
 ]
+
