@@ -1,42 +1,68 @@
-from rest_framework import viewsets, filters, status
+from rest_framework import viewsets, status
 from rest_framework.response import Response
+from rest_framework.decorators import action
+from django.shortcuts import get_object_or_404
+
 from .models import Conversation, Message
 from .serializers import ConversationSerializer, MessageSerializer
-from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.exceptions import ValidationError
 
 class ConversationViewSet(viewsets.ModelViewSet):
+    """
+    Viewset to handle listing, retrieving, creating, and updating conversations.
+    """
     queryset = Conversation.objects.all()
     serializer_class = ConversationSerializer
-    permission_classes = [IsAuthenticated]
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['participants__username', 'participants__email']
-    ordering_fields = ['created_at']
 
-    def perform_create(self, serializer):
-        participants = self.request.data.get('participants')
+    @action(detail=False, methods=["post"])
+    def create_conversation(self, request):
+        """
+        Custom endpoint to create a new conversation.
+        Expects a list of participant IDs in the payload.
+        """
+        participants = request.data.get("participants")
         if not participants or len(participants) < 2:
-            raise ValidationError("A conversation must have at least two participants.")
-        serializer.save()
+            return Response(
+                {"error": "A conversation must have at least two participants."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        # Create the conversation
+        conversation = Conversation.objects.create()
+        conversation.participants.set(participants)
+        conversation.save()
+        return Response(
+            ConversationSerializer(conversation).data,
+            status=status.HTTP_201_CREATED,
+        )
 
-    @action(detail=True, methods=['get'])
-    def messages(self, request, pk=None):
-        conversation = self.get_object()
-        messages = conversation.messages.all()
-        serializer = MessageSerializer(messages, many=True)
-        return Response(serializer.data)
 
 class MessageViewSet(viewsets.ModelViewSet):
+    """
+    Viewset to handle listing, retrieving, creating, and updating messages.
+    """
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
-    permission_classes = [IsAuthenticated]
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['message_body', 'sender__username']
-    ordering_fields = ['sent_at']
 
-    def perform_create(self, serializer):
-        conversation = serializer.validated_data.get('conversation')
-        if not conversation:
-            raise ValidationError("Conversation is required to send a message.")
-        serializer.save()
+    def create(self, request, *args, **kwargs):
+        """
+        Overrides the create method to handle sending a message to an existing conversation.
+        """
+        conversation_id = request.data.get("conversation_id")
+        sender_id = request.data.get("sender")
+        message_body = request.data.get("message_body")
+
+        if not conversation_id or not sender_id or not message_body:
+            return Response(
+                {"error": "conversation_id, sender, and message_body are required fields."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        conversation = get_object_or_404(Conversation, pk=conversation_id)
+        message = Message.objects.create(
+            conversation=conversation,
+            sender_id=sender_id,
+            message_body=message_body,
+        )
+        return Response(
+            MessageSerializer(message).data,
+            status=status.HTTP_201_CREATED,
+        )
