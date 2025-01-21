@@ -3,13 +3,13 @@ from rest_framework.routers import DefaultRouter
 from .views import ConversationViewSet, MessageViewSet
 
 # Instantiate DefaultRouter
-router = DefaultRouter()
+routers = DefaultRouter()
 
 # Register viewsets with the router
-router.register(r'conversations', ConversationViewSet, basename='conversation')
-router.register(r'messages', MessageViewSet, basename='message')
+routers.register(r'conversations', ConversationViewSet, basename='conversation')
+routers.register(r'messages', MessageViewSet, basename='message')
 
 # Include the router-generated URLs in the urlpatterns
 urlpatterns = [
-    path('', include(router.urls)),  # Include all API routes from the router
+    path('', include(routers.urls)),  # Include all API routes from the router
 ]
