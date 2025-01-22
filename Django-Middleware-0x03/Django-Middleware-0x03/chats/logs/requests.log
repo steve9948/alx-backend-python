@@ -14,3 +14,15 @@ Forbidden: /api/conversations/
 Forbidden: /api/conversations/
 2025-01-22 19:21:28.991048 - User: Anonymous - Path: /api/conversations/
 Forbidden: /api/conversations/
+2025-01-22 19:28:31.210975 - User: Anonymous - Path: /api/conversations/
+Forbidden: /api/conversations/
+/home/steve/alx-backend-python/Django-Middleware-0x03/Django-Middleware-0x03/messaging_app/settings.py changed, reloading.
+2025-01-22 19:31:43.649935 - User: Anonymous - Path: /api/conversations/
+Forbidden: /api/conversations/
+2025-01-22 19:33:06.080583 - User: Anonymous - Path: /api/conversations/
+Forbidden: /api/conversations/
+2025-01-22 19:34:45.968246 - User: Anonymous - Path: /api/auth/token/
+Not Found: /api/auth/token/
+2025-01-22 19:35:12.522264 - User: Anonymous - Path: /api/auth/token/
+Not Found: /api/auth/token/
+/home/steve/alx-backend-python/Django-Middleware-0x03/Django-Middleware-0x03/chats/middleware.py changed, reloading.
