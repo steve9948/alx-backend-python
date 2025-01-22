@@ -1,0 +1,14 @@
+2025-01-22 19:14:25.803436 - User: Anonymous - Path: /
+Not Found: /
+2025-01-22 19:14:26.039118 - User: Anonymous - Path: /favicon.ico
+Not Found: /favicon.ico
+2025-01-22 19:14:30.076270 - User: Anonymous - Path: /admin/
+2025-01-22 19:14:30.088418 - User: Anonymous - Path: /admin/login/
+2025-01-22 19:15:02.293660 - User: Anonymous - Path: /api/conversations/
+Forbidden: /api/conversations/
+2025-01-22 19:15:43.922376 - User: Anonymous - Path: /api/conversations/1/messages/
+Forbidden: /api/conversations/1/messages/
+2025-01-22 19:16:18.438345 - User: Anonymous - Path: /api/conversations/
+Forbidden: /api/conversations/
+2025-01-22 19:16:27.907999 - User: Anonymous - Path: /api/conversations/
+Forbidden: /api/conversations/
