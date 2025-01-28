@@ -12,12 +12,35 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
+import pymysql
+pymysql.install_as_MySQLdb()
 
-AUTH_USER_MODEL = 'chats.User'
+import environ
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': str(BASE_DIR / 'MYSQL_DATABASE'), #os.getenv('MYSQL_DATABASE'),
+#         'USER': os.getenv('MYSQL_USER'),
+#         'PASSWORD': os.getenv('MYSQL_PASSWORD'),
+#         'HOST': os.getenv('DB_HOST'),
+#         'PORT': int(os.getenv('DB_PORT', 3306)),  # Cast to integer
+#     }
+# }
+
+
+AUTH_USER_MODEL = 'chats.User'
+
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -94,11 +117,11 @@ WSGI_APPLICATION = 'messaging_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': BASE_DIR / 'MYSQL_DATABASE',
-        'USER': os.getenv('MYSQL_USER'),
-        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
-        'HOST': os.getenv('DB_HOST', '127.0.0.1'),
-        'PORT': os.getenv('DB_PORT', '3306'),
+        'NAME': env('DB_NAME', default='default_db_name'),
+        'USER': env('DB_USER', default='default_user'),
+        'PASSWORD': env('DB_PASSWORD', default='default_password'),
+        'HOST': env('DB_HOST', default='default_localhost'),
+        'PORT': env('DB_PORT', '3306', default='3306'),
     }
 }
 
