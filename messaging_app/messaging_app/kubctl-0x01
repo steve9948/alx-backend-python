@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+#Scale the messaging app to 3 replicas
+echo "Scaling the messaging app to 3 replicas..."
+kubectl scale deployment messaging-app --replicas=3
+
+#Check the status of the pods
+echo "Checking the status of the pods..."
+kubectl get pods
+
+#monitor resource usage
+echo "Monitoring resource usage..."
+kubectl top pods
+
+# #Check the logs of the pods
+# echo "Checking the logs of the pods..."
+# kubectl logs -l app=messaging-app
+
+echo "Script completed successfully."
