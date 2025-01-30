@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: messaging-app
+  labels:
+    app: django-messaging
+spec:
+  replicas: 2  # Adjust based on your needs
+  selector:
+    matchLabels:
+      app: messaging-app
+  template:
+    metadata:
+      labels:
+        app: messaging-app
+    spec:
+      containers:
+      - name: messaging-app-container
+        image: messaging-app:latest  # Replace with your actual image name and tag
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - secretRef:
+            name: messaging-secret  # Loads DB_USER, DB_PASSWORD
+        
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: messaging-app-service
+spec:
+  selector:
+    app: messaging-app
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
+  type: ClusterIP  # Keeps it internal within the cluster
