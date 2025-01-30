@@ -1,0 +1,17 @@
+# Step 1: Install the Nginx Ingress Controller
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+
+# Step 2: Verify that the Ingress Controller is running
+kubectl get pods -n ingress-nginx
+
+# Step 3: Check the Ingress Controller service to get the external IP
+kubectl get svc -n ingress-nginx
+
+# Step 4: Apply the Ingress resource to expose the Django app
+kubectl apply -f messaging_app/ingress.yaml
+
+# Step 5: Verify the Ingress resource is created and configured correctly
+kubectl get ingress
+
+# Step 6: Retrieve the external IP of the Ingress controller (for DNS setup)
+kubectl get svc -n ingress-nginx | grep ingress-nginx-controller
