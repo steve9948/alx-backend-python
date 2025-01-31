@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: django-app
-        image: stevemg9/django-messaging-app:v1
+        image: stevemg9/django-messaging-app:v2.0  # Updated image version
         ports:
         - containerPort: 8000
 ---

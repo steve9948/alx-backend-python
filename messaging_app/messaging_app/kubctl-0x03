@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Step 1: Apply the updated blue_deployment.yaml to trigger the rolling update
+echo "Applying updated blue_deployment.yaml to trigger the rolling update..."
+kubectl apply -f messaging_app/blue_deployment.yaml
+
+# Step 2: Monitor the rollout progress
+echo "Monitoring the rollout progress..."
+kubectl rollout status deployment/django-app-blue --timeout=5m
+
+# Step 3: Test the application with curl to ensure no downtime or disruption
+echo "Testing application with curl to check for downtime or disruption..."
+
+# Send requests to the app continuously while the update is happening
+while true; do
+  curl -s http://django-app-service:80 > /dev/null
+  if [ $? -ne 0 ]; then
+    echo "Error: Application is down!"
+    exit 1
+  fi
+  sleep 1  # Send a request every second
+done &
+
+# Step 4: Verify the rolling update is complete by checking the current pods
+echo "Verifying the rolling update is complete..."
+kubectl get pods -l app=django-app
+
+# Step 5: Print the current deployment status
+echo "Deployment status:"
+kubectl get deployments
+
+echo "Rolling update complete!"
