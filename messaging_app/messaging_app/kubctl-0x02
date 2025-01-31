@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Apply the blue (current) deployment
+kubectl apply -f messaging_app/blue_deployment.yaml
+
+# Apply the green (new) deployment
+kubectl apply -f messaging_app/green_deployment.yaml
+
+# Apply the service (initially pointing to blue)
+kubectl apply -f messaging_app/kubeservice.yaml
+
+# Check the pods status
+echo "Checking pod status..."
+kubectl get pods
+
+# Check logs of the new deployment (green)
+echo "Fetching logs from the new (green) deployment..."
+kubectl logs -l version=green --tail=20
