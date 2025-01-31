@@ -1,18 +1,21 @@
 #!/bin/bash
 
-# Apply the blue (current) deployment
-kubectl apply -f messaging_app/blue_deployment.yaml
+# Step 1: Deploy the blue version (current version)
+echo "Deploying blue version..."
+kubectl apply -f blue_deployment.yaml
 
-# Apply the green (new) deployment
-kubectl apply -f messaging_app/green_deployment.yaml
+# Step 2: Deploy the green version (new version)
+echo "Deploying green version..."
+kubectl apply -f green_deployment.yaml
 
-# Apply the service (initially pointing to blue)
-kubectl apply -f messaging_app/kubeservice.yaml
+# Step 3: Switch traffic to the green version gradually
+echo "Switching traffic to the green version..."
+kubectl patch service django-app-service -p '{"spec":{"selector":{"version":"green"}}}'
 
-# Check the pods status
-echo "Checking pod status..."
-kubectl get pods
+# Step 4: Monitor logs for errors in the green version
+echo "Checking logs for green version..."
+kubectl logs -l app=django-app,version=green -f
 
-# Check logs of the new deployment (green)
-echo "Fetching logs from the new (green) deployment..."
-kubectl logs -l version=green --tail=20
+# Step 5: If no errors, continue with traffic migration, else rollback
+# (Optional) Add a check to rollback if needed
+echo "Deployment completed. Monitor logs for any issues."

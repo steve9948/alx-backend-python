@@ -16,6 +16,20 @@ spec:
     spec:
       containers:
       - name: django-app
-        image: your-dockerhub-username/django-messaging-app:v2  # New version
+        image: stevemg9/django-messaging-app:v2
         ports:
         - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: django-app-service
+spec:
+  selector:
+    app: django-app
+    version: green
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: ClusterIP

@@ -5,9 +5,9 @@ metadata:
 spec:
   selector:
     app: django-app
-    version: blue  # Initially points to blue version
+    version: blue  # Initially, set to blue
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8000
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
   type: ClusterIP
