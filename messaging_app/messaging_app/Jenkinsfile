@@ -26,7 +26,7 @@ pipeline {
                         ],
                         userRemoteConfigs: [[
                             url: 'https://github.com/steve9948/alx-backend-python.git',
-                            credentialsId: '4101d079-d1d5-4971-9899-b45ea582c62e'
+                            credentialsId: 'github-credentials'
                         ]]
                     ])
                 }
